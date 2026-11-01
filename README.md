@@ -104,7 +104,9 @@ python3 -m http.server 8080
 open http://localhost:8080/index.html
 
 # Deploy to production
-bash ../deploy-ftp.sh 3d-shooter --remote-name=burgfall
+rsync -rlt --exclude='*.md' --exclude='/.git' --exclude='/.gitignore' --exclude='.DS_Store' --exclude='/tests/' --exclude='/data/' --exclude='/.htaccess' \
+  ./ server-mini:/Users/Shared/srv/www/theuws-com/httpdocs/games/burgfall/
+# then purge Cloudflare for the changed URLs (incl. the Origin variant)
 ```
 
 ### Adding a Level
