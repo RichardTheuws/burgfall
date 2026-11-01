@@ -4,7 +4,10 @@
  * Handles score submission, retrieval, and display via a retro-styled
  * overlay that matches the Burgfall game aesthetic.
  *
- * Communicates with the PHP backend at api/scores.php (SQLite).
+ * Uses the shared theuws.com highscore service (/wp-json/game/v1/highscores,
+ * game 'burgfall'): one top-10 of name + score. The old PHP backend died when
+ * theuws.com went static (PHP returns 410). The key is public, as in the
+ * other games that use this service.
  *
  * ╔══════════════════════════════════════════════════════════════════╗
  * ║  INTEGRATION INSTRUCTIONS FOR main.js                          ║
@@ -90,8 +93,13 @@ const DIFFICULTY_LABELS = {
     hard: 'No Mercy',
 };
 
+const HIGHSCORE_ENDPOINT = 'https://theuws.com/wp-json/game/v1/highscores';
+const HIGHSCORE_GAME = 'burgfall';
+const HIGHSCORE_KEY = 'rVWU xf47 VvFt yl4T UmpQ MCAB';
+
+// The service keeps one list per game, so there are no per-episode tabs.
 const TAB_ALL = 'all';
-const TABS = [TAB_ALL, '1', '2', '3', '4', '5', '6', '7'];
+const TABS = [TAB_ALL];
 
 // ── Styles ─────────────────────────────────────────────────────────
 
@@ -119,8 +127,8 @@ const COLORS = {
 
 export class Leaderboard {
     constructor() {
-        /** @type {string} API endpoint (relative to game root) */
-        this._apiUrl = 'api/scores.php';
+        /** @type {string} Highscore service endpoint */
+        this._apiUrl = HIGHSCORE_ENDPOINT;
 
         /** @type {HTMLElement|null} The overlay element */
         this._overlay = null;
@@ -180,29 +188,20 @@ export class Leaderboard {
             if (!name) return null; // User cancelled
         }
 
-        // Map 'baby' difficulty to 'easy' since the API only accepts easy/medium/hard
-        let difficulty = gameState.difficulty || 'medium';
-        if (difficulty === 'baby') difficulty = 'easy';
-
-        const payload = {
-            name,
-            score: gameState.score,
-            episode: Math.min(gameState.episode, 6), // API max is 6
-            floor: gameState.floor || 0,
-            kills: gameState.kills || 0,
-            secrets: gameState.secrets || 0,
-            time: gameState.time || 0,
-            difficulty,
-        };
+        const payload = { name, score: gameState.score, game: HIGHSCORE_GAME };
 
         try {
             const response = await fetch(this._apiUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + HIGHSCORE_KEY,
+                },
                 body: JSON.stringify(payload),
             });
 
-            const result = await response.json();
+            const body = await response.json();
+            const result = { success: response.ok && Boolean(body && body.id), rank: null };
 
             if (result.success) {
                 // Track submission to prevent duplicates
@@ -235,14 +234,14 @@ export class Leaderboard {
         }
 
         try {
-            let url = `${this._apiUrl}?limit=${limit}`;
-            if (episode !== null && episode >= 1) {
-                url += `&episode=${Math.min(episode, 6)}`;
-            }
-
+            const url = `${this._apiUrl}?game=${encodeURIComponent(HIGHSCORE_GAME)}`;
             const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            const scores = data.scores || [];
+            // The service returns score as a string; the table needs numbers.
+            const scores = (Array.isArray(data) ? data : [])
+                .slice(0, limit)
+                .map((row) => ({ name: row.name, score: Number(row.score) || 0, date: row.date }));
 
             this._cache[cacheKey] = scores;
             return scores;
@@ -674,6 +673,7 @@ export class Leaderboard {
      */
     _createTabs() {
         const container = document.createElement('div');
+        if (TABS.length < 2) return container; // single list: no tab bar
         Object.assign(container.style, {
             display: 'flex',
             flexWrap: 'wrap',
@@ -833,8 +833,8 @@ export class Leaderboard {
         // Header row
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['#', 'NAME', 'SCORE', 'EP', 'FLOOR', 'DIFF', 'DATE'];
-        const headerWidths = ['6%', '22%', '20%', '8%', '10%', '18%', '16%'];
+        const headers = ['#', 'NAME', 'SCORE', 'DATE'];
+        const headerWidths = ['10%', '45%', '25%', '20%'];
 
         for (let i = 0; i < headers.length; i++) {
             const th = document.createElement('th');
@@ -933,46 +933,6 @@ export class Leaderboard {
             });
             row.appendChild(scoreCell);
 
-            // Episode
-            const epCell = document.createElement('td');
-            epCell.textContent = `E${score.episode}`;
-            Object.assign(epCell.style, {
-                color: COLORS.bodyText,
-                fontSize: '9px',
-                fontFamily: FONT_FAMILY,
-                padding: '10px 4px',
-                textAlign: 'left',
-            });
-            row.appendChild(epCell);
-
-            // Floor
-            const floorCell = document.createElement('td');
-            floorCell.textContent = score.floor > 0 ? `F${score.floor}` : '-';
-            Object.assign(floorCell.style, {
-                color: COLORS.bodyText,
-                fontSize: '9px',
-                fontFamily: FONT_FAMILY,
-                padding: '10px 4px',
-                textAlign: 'left',
-            });
-            row.appendChild(floorCell);
-
-            // Difficulty
-            const diffCell = document.createElement('td');
-            diffCell.textContent = this._getDifficultyLabel(score.difficulty);
-            Object.assign(diffCell.style, {
-                color: this._getDifficultyColor(score.difficulty),
-                fontSize: '8px',
-                fontFamily: FONT_FAMILY,
-                padding: '10px 4px',
-                textAlign: 'left',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '0',
-            });
-            row.appendChild(diffCell);
-
             // Date
             const dateCell = document.createElement('td');
             dateCell.textContent = this._formatDate(score.date);
@@ -1010,42 +970,14 @@ export class Leaderboard {
     }
 
     /**
-     * Get a short difficulty label.
-     * @param {string} difficulty
-     * @returns {string}
-     */
-    _getDifficultyLabel(difficulty) {
-        switch (difficulty) {
-            case 'easy': return 'EASY';
-            case 'medium': return 'MEDIUM';
-            case 'hard': return 'HARD';
-            default: return difficulty ? difficulty.toUpperCase() : '-';
-        }
-    }
-
-    /**
-     * Get a color for a difficulty level.
-     * @param {string} difficulty
-     * @returns {string}
-     */
-    _getDifficultyColor(difficulty) {
-        switch (difficulty) {
-            case 'easy': return COLORS.green;
-            case 'medium': return COLORS.gold;
-            case 'hard': return COLORS.red;
-            default: return COLORS.dimText;
-        }
-    }
-
-    /**
-     * Format a date string (YYYY-MM-DD) for display.
+     * Format a date string (YYYY-MM-DD, optionally with a time) for display.
      * @param {string} dateStr
      * @returns {string}
      */
     _formatDate(dateStr) {
         if (!dateStr) return '-';
         try {
-            const parts = dateStr.split('-');
+            const parts = dateStr.split(' ')[0].split('-');
             if (parts.length === 3) {
                 return `${parts[2]}/${parts[1]}`;
             }

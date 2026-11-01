@@ -5,6 +5,24 @@ All notable changes to Burgfall (formerly published as a Wolfenstein 3D remake) 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.1] - 2026-11-01 — Leaderboard back online
+
+### Fixed
+
+- The leaderboard was dead since theuws.com went static on 2026-10-29 (`api/scores.php`
+  answered 410). It now uses the shared theuws.com highscore service
+  (`/wp-json/game/v1/highscores`, game `burgfall`), like the other games. The six
+  existing scores were carried over with their original dates.
+
+### Changed
+
+- One overall top 10 (rank, name, score, date): the service stores no episode, floor
+  or difficulty, so the episode tabs and those columns are gone.
+
+### Removed
+
+- `api/` (PHP + SQLite backend). The old database is archived off the web root.
+
 ## [0.10.0] - 2026-11-01 — Rebrand to Burgfall
 
 ### Changed
