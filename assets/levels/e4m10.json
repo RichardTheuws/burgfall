@@ -1,12 +1,12 @@
 {
-  "name": "Giftmacher's Command Center",
+  "name": "Nebel's Command Center",
   "episode": 4,
   "floor": 10,
   "width": 32,
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "otto",
+  "bossType": "nebel",
   "playerStart": { "x": 15.5, "z": 2.5, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -61,7 +61,7 @@
     { "type": "chaingun", "x": 15.5, "z": 9.5 }
   ],
   "boss": {
-    "type": "otto",
+    "type": "nebel",
     "x": 15.5,
     "z": 22.5,
     "triggerZone": {

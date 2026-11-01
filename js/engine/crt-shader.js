@@ -8,7 +8,7 @@
  * - Film grain (very subtle animated noise)
  * - Vignette (edge darkening)
  *
- * Designed to enhance the retro Wolfenstein feel without being distracting.
+ * Designed to enhance the retro FPS feel without being distracting.
  */
 
 export const CRTShader = {

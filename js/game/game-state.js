@@ -10,7 +10,7 @@ import { eventBus } from '../engine/event-bus.js';
 /** Valid difficulty levels */
 const DIFFICULTIES = ['baby', 'easy', 'medium', 'hard'];
 
-/** Difficulty presets (from original Wolfenstein source code) */
+/** Difficulty presets (classic retro-FPS tuning) */
 const DIFFICULTY_PRESETS = {
     baby:   { enemyDamageMult: 0.5,  enemySpeedMult: 0.8, enemyCountMult: 0.5 },
     easy:   { enemyDamageMult: 0.75, enemySpeedMult: 0.9, enemyCountMult: 0.75 },

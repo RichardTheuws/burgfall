@@ -1,9 +1,43 @@
 # Changelog
 
-All notable changes to the Infernal Assault project will be documented in this file.
+All notable changes to Burgfall (formerly published as a Wolfenstein 3D remake) are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.10.0] - 2026-11-01 — Rebrand to Burgfall
+
+### Changed
+
+- The game is now **Burgfall**, its own IP instead of a remake carrying a third-party
+  trademark. New title, meta/OG/JSON-LD, `llms.txt`, sitemap and robots point to
+  `theuws.com/games/burgfall/`; the trademark note in `LICENSE` is gone.
+- Original cast and story: Kommandant Brandt, Dr. Vogel, Generaloberst Krieger (mech +
+  on foot), Dr. Nebel, Ilse Brandt, General von Haldern, Projekt Golem. Episodes:
+  Ausbruch, Das Labor, Der Bunker, Giftküche, Die Jägerin, Festung Haldern, Golem.
+  Fortress: Burg Kaltenfels. New difficulty names, default player name `AGENT`.
+- Boss models, voice files and HUD faces renamed to match. Three boss voice lines
+  had the hero's name cut out (same recording, same voice).
+- `css/wolf3d.css` → `css/game.css`. localStorage keys are unchanged so players keep
+  their saves, unlocked episodes and name.
+- `.md` files are no longer served from the web root (`.htaccess`).
+
+### Fixed
+
+- Bosses of episodes 1–3 referenced unknown boss types (`hans_grosse`, `boss_schabbs`,
+  `boss_hitler`), so all three spawned as the first boss as a placeholder box and the
+  episode 3 mech phase never ran. Each now gets its own boss, model and voice, and
+  the mech → on-foot phase transition works.
+
+### Added
+
+- `tests/boss-config.test.mjs`: every boss level must reference a known boss type
+  with a model, voice line and valid next phase.
+
+### Removed
+
+- Unused `wolf3d.html` (stale copy of `index.html`), unused `assets/models/bosses/`,
+  and the remake planning docs (moved out of the repo).
 
 ## [0.9.0] - 2026-10-20 — Enemy pathfinding (Wave 4)
 

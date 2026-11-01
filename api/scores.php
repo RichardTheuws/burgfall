@@ -1,9 +1,9 @@
 <?php
 /**
- * Wolfenstein 3D Leaderboard API
+ * Burgfall Leaderboard API
  *
- * POST /games/wolfenstein-3d/api/scores.php — Submit a score
- * GET  /games/wolfenstein-3d/api/scores.php — Get leaderboard
+ * POST /games/burgfall/api/scores.php — Submit a score
+ * GET  /games/burgfall/api/scores.php — Get leaderboard
  *
  * SQLite database stored at ../data/scores.db
  */
@@ -344,6 +344,6 @@ try {
     };
 } catch (Throwable $e) {
     // Log the error server-side (if error_log is configured)
-    error_log('Wolfenstein 3D Leaderboard API error: ' . $e->getMessage());
+    error_log('Burgfall Leaderboard API error: ' . $e->getMessage());
     jsonError('Internal server error.', 500);
 }

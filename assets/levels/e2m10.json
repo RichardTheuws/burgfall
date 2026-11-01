@@ -1,12 +1,12 @@
 {
-  "name": "Schabbs' Lair",
+  "name": "Vogel's Lair",
   "episode": 2,
   "floor": 10,
   "width": 32,
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "boss_schabbs",
+  "bossType": "vogel",
   "playerStart": { "x": 15, "z": 2, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -60,7 +60,7 @@
     { "type": "mp40_ammo", "x": 15.5, "z": 7.5 }
   ],
   "boss": {
-    "type": "boss_schabbs",
+    "type": "vogel",
     "x": 15.5,
     "z": 18.5,
     "triggerZone": {

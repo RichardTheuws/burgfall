@@ -1,5 +1,5 @@
 /**
- * enemy.js — Single Enemy Entity with Wolfenstein-Faithful AI
+ * enemy.js — Single Enemy Entity with Classic Retro-FPS AI
  *
  * Manages one enemy's state machine (IDLE → ALERT → CHASE → ATTACK → PAIN → DEAD),
  * line-of-sight checks via DDA grid raycasting, movement with collision,
@@ -1058,7 +1058,7 @@ export class Enemy {
     // ── Internal: Combat ───────────────────────────────────────────────
 
     /**
-     * Fire a hitscan shot at the player. In the original Wolfenstein, enemy attacks
+     * Fire a hitscan shot at the player. In classic raycaster shooters, enemy attacks
      * always hit if they have LOS — damage is distance-based.
      * @param {number} distance - Distance to player
      */

@@ -1,8 +1,8 @@
 /**
- * cheats.js — Classic Wolfenstein Cheat Code System
+ * cheats.js — Classic Cheat Code System
  *
  * Listens for keyboard sequences (Konami-style typed codes) and applies
- * classic Wolfenstein cheat effects. Cheats are a beloved feature of the
+ * classic retro-FPS cheat effects. Cheats are a beloved feature of the
  * original game — they're fun, not game-breaking.
  *
  * Supported cheats:

@@ -1,12 +1,12 @@
 {
-  "name": "Der Übersoldat",
+  "name": "Projekt Golem",
   "episode": 7,
   "floor": 10,
   "width": 32,
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "ubersoldier",
+  "bossType": "golem",
   "playerStart": { "x": 15, "z": 2, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -66,7 +66,7 @@
     { "type": "mp40", "x": 15.5, "z": 8.5 }
   ],
   "boss": {
-    "type": "ubersoldier",
+    "type": "golem",
     "x": 15.5,
     "z": 22.5,
     "triggerZone": {

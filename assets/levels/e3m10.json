@@ -6,7 +6,7 @@
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "boss_hitler",
+  "bossType": "krieger_mech",
   "playerStart": { "x": 15, "z": 2, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -64,7 +64,7 @@
     { "type": "health_small", "x": 20.5, "z": 8.5 }
   ],
   "boss": {
-    "type": "boss_hitler",
+    "type": "krieger_mech",
     "x": 15.5,
     "z": 20.5,
     "phases": 2,

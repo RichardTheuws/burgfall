@@ -1,20 +1,20 @@
-# Wolfenstein 3D — 2026 Browser Remake
+# Burgfall — Browser FPS
 
-> A faithful browser-based remake of the classic 1992 FPS Wolfenstein 3D, reimagined with 2026 AI technology.
+> A retro-style WWII first-person shooter for the browser: break out of the mountain fortress Burg Kaltenfels. Built with 2026 AI technology.
 
 ## About
 This game was built by Richard Theuws (Creative Director, theuws.com) and Claude Opus 4.6 (AI Game Master by Anthropic) in approximately 6 hours of development time. It demonstrates the power of human-AI collaboration in game development.
 
 ## Play
-- URL: https://theuws.com/games/wolfenstein-3d/
+- URL: https://theuws.com/games/burgfall/
 - Platform: Any modern web browser (Chrome, Firefox, Safari, Edge)
 - Cost: Free to play
 - Controls: WASD + Mouse (desktop), Touch joystick (mobile)
 
 ## Game Content
-- 7 episodes: "Escape from Castle Wolfenstein", "Operation Eisenfaust", "Die, Führer, Die!", "A Dark Secret", "Trail of the Madman", "Confrontation", "The Nightmare" (bonus)
+- 7 episodes: "Ausbruch", "Das Labor", "Der Bunker", "Giftküche", "Die Jägerin", "Festung Haldern", "Golem" (bonus)
 - 33 playable levels with increasing difficulty
-- 7 boss fights: Hans Grösse, Dr. Schabbs, Hitler (2-phase mech suit + human), Otto Giftmacher (gas_cloud attack), Gretel Grösse (tactical hunter), General Fettgesicht (rocket attack), Der Übersoldat (ultimate bonus boss — all attacks combined)
+- 7 boss fights: Kommandant Brandt, Dr. Vogel (summons mutants), Generaloberst Krieger (2-phase: mech suit + on foot), Dr. Nebel (gas clouds), Ilse Brandt (tactical hunter), General von Haldern (rockets), Projekt Golem (ultimate bonus boss — all attacks combined)
 - 5 enemy types: Guard, SS Soldier, Officer, Dog, Mutant
 - 4 weapons: Knife, Luger P08 pistol, MP40 submachine gun, Chain gun
 - Classic cheat codes: GOD, GUNS, KEYS, MAP, FPS

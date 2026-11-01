@@ -313,7 +313,7 @@ export class LevelLoader {
      * @param {number} [episode=1] - Episode number for theme-specific textures
      */
     async _loadTextures(textureMap, episode = 1) {
-        // Fallback colors matching Wolfenstein wall types from GAMEPLAY-ANALYSIS
+        // Fallback colors matching the classic wall types
         const fallbackColors = {
             1: 0x808080,  // Grey stone wall
             2: 0x707090,  // Grey stone with eagle banner

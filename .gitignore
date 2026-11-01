@@ -6,6 +6,7 @@ coverage/
 src/
 tests/*
 !tests/pathfinder.test.mjs
+!tests/boss-config.test.mjs
 docs/
 .husky/
 .eslintrc.js

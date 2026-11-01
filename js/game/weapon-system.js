@@ -1,5 +1,5 @@
 /**
- * weapon-system.js — Wolfenstein 3D Weapon System
+ * weapon-system.js — Burgfall Weapon System
  *
  * 4 weapons (Knife, Pistol, Machine Gun, Chain Gun) with hitscan combat,
  * distance-based damage, ammo management, and weapon switching.
@@ -423,7 +423,7 @@ export class WeaponSystem {
     }
 
     /**
-     * Calculate hitscan damage based on distance (Wolfenstein formula).
+     * Calculate hitscan damage based on distance (classic hitscan falloff).
      * Base damage: random(1, 15)
      * Distance factor: if distance > 2, reduce by distance/2
      * Final: max(1, baseDamage - distance/2)

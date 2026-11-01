@@ -162,8 +162,8 @@ export class Credits {
 
             <!-- SECTION 1: Title Card -->
             <section class="credits-section" data-bg="assets/ui/credits/credits_collaboration.jpg">
-                <h1 class="credits-game-title">Wolfenstein 3D</h1>
-                <p class="credits-game-subtitle">2026 Browser Remake</p>
+                <h1 class="credits-game-title">Burgfall</h1>
+                <p class="credits-game-subtitle">A browser FPS</p>
                 <div class="credits-divider"></div>
                 <p class="credits-tagline">A game by Richard Theuws &amp; Claude AI</p>
             </section>
@@ -315,22 +315,20 @@ export class Credits {
             <section class="credits-section">
                 <h2 class="credits-role">Special Thanks</h2>
                 <div class="credits-divider"></div>
-                <p class="credits-thanks"><span class="credits-thanks-name">id Software</span> &mdash; For creating the original Wolfenstein 3D in 1992</p>
-                <p class="credits-thanks"><span class="credits-thanks-name">Bobby Prince</span> &mdash; For the music that defined a generation</p>
+                <p class="credits-thanks">The pioneers of the 90s first-person shooter</p>
                 <p class="credits-thanks"><span class="credits-thanks-name">The Metal Business Club</span> community</p>
-                <p class="credits-thanks">And to every gamer who remembers hearing<br><em class="credits-mein-leben">&ldquo;Mein Leben!&rdquo;</em><br>for the first time</p>
             </section>
 
             <div class="credits-gap"></div>
 
             <!-- SECTION 8: Finale -->
             <section class="credits-section credits-section--finale" data-bg="assets/ui/credits/credits_collaboration.jpg">
-                <h1 class="credits-finale-title">Wolfenstein 3D</h1>
-                <p class="credits-finale-subtitle">2026 Browser Remake</p>
+                <h1 class="credits-finale-title">Burgfall</h1>
+                <p class="credits-finale-subtitle">A browser FPS</p>
                 <div class="credits-divider"></div>
-                <p class="credits-finale-url">theuws.com/games/wolfenstein-3d</p>
+                <p class="credits-finale-url">theuws.com/games/burgfall</p>
                 <p class="credits-detail" style="margin-top: 1.5rem; opacity: 0.8;">Open Source on GitHub</p>
-                <p class="credits-finale-url" style="font-size: 0.9rem;">github.com/RichardTheuws/wolfenstein-2026-browser-remake</p>
+                <p class="credits-finale-url" style="font-size: 0.9rem;">github.com/RichardTheuws/burgfall</p>
                 <p class="credits-finale-location">Made in Bladel &#x1F1F3;&#x1F1F1;</p>
             </section>
 

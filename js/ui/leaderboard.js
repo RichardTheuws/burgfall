@@ -2,7 +2,7 @@
  * leaderboard.js — High Score Leaderboard System
  *
  * Handles score submission, retrieval, and display via a retro-styled
- * overlay that matches the Wolfenstein 3D 2026 game aesthetic.
+ * overlay that matches the Burgfall game aesthetic.
  *
  * Communicates with the PHP backend at api/scores.php (SQLite).
  *
@@ -46,7 +46,7 @@
  * ║         });                                                     ║
  * ║     }                                                           ║
  * ║                                                                ║
- * ║  6. Add a HIGH SCORES button to the main menu (wolf3d.html)    ║
+ * ║  6. Add a HIGH SCORES button to the main menu (index.html)    ║
  * ║     alongside New Game / Continue / Options / Credits:          ║
  * ║                                                                ║
  * ║     <button id="btn-leaderboard" class="menu-btn">             ║
@@ -74,20 +74,20 @@ const STORAGE_KEY_NAME = 'wolf3d-player-name';
 const STORAGE_KEY_LAST_SCORE = 'wolf3d-last-submitted-score';
 
 const EPISODE_NAMES = {
-    1: 'Escape from Castle Wolfenstein',
-    2: 'Operation Eisenfaust',
-    3: 'Die, Fuhrer, Die!',
-    4: 'A Dark Secret',
-    5: 'Trail of the Madman',
-    6: 'Confrontation',
-    7: 'The Nightmare',
+    1: 'Ausbruch',
+    2: 'Das Labor',
+    3: 'Der Bunker',
+    4: 'Giftküche',
+    5: 'Die Jägerin',
+    6: 'Festung Haldern',
+    7: 'Golem',
 };
 
 const DIFFICULTY_LABELS = {
-    baby: 'Can I Play, Daddy?',
-    easy: 'Don\'t Hurt Me',
-    medium: 'Bring \'Em On!',
-    hard: 'I Am Death Incarnate!',
+    baby: 'Just a Recruit',
+    easy: 'Go Easy on Me',
+    medium: 'Bring the Fight',
+    hard: 'No Mercy',
 };
 
 const TAB_ALL = 'all';
@@ -418,8 +418,8 @@ export class Leaderboard {
             const input = document.createElement('input');
             input.type = 'text';
             input.maxLength = 20;
-            input.value = this._getStoredName() || 'BJ';
-            input.placeholder = 'BJ';
+            input.value = this._getStoredName() || 'AGENT';
+            input.placeholder = 'AGENT';
             // Stop keydown from reaching the game's input manager
             input.addEventListener('keydown', (e) => e.stopPropagation());
             Object.assign(input.style, {
@@ -500,7 +500,7 @@ export class Leaderboard {
             };
 
             const submit = () => {
-                const name = input.value.trim() || 'BJ';
+                const name = input.value.trim() || 'AGENT';
                 this._storeName(name);
                 cleanup();
                 resolve(name);
@@ -583,7 +583,7 @@ export class Leaderboard {
 
         // Subtitle
         const subtitle = document.createElement('p');
-        subtitle.textContent = 'WOLFENSTEIN 3D';
+        subtitle.textContent = 'BURGFALL';
         Object.assign(subtitle.style, {
             color: COLORS.gold,
             fontSize: '10px',
@@ -619,21 +619,21 @@ export class Leaderboard {
             marginTop: '16px',
             fontFamily: FONT_FAMILY,
             letterSpacing: '2px',
-            animation: 'wolf3d-lb-blink 1.2s ease-in-out infinite',
+            animation: 'burgfall-lb-blink 1.2s ease-in-out infinite',
         });
 
         // Blink animation
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes wolf3d-lb-blink {
+            @keyframes burgfall-lb-blink {
                 0%, 100% { opacity: 1; }
                 50% { opacity: 0.3; }
             }
-            @keyframes wolf3d-lb-fadeInRow {
+            @keyframes burgfall-lb-fadeInRow {
                 from { opacity: 0; transform: translateY(8px); }
                 to { opacity: 1; transform: translateY(0); }
             }
-            @keyframes wolf3d-lb-pulse {
+            @keyframes burgfall-lb-pulse {
                 0%, 100% { text-shadow: 0 0 8px rgba(46, 204, 113, 0.4); }
                 50% { text-shadow: 0 0 16px rgba(46, 204, 113, 0.8); }
             }
@@ -868,7 +868,7 @@ export class Leaderboard {
             const row = document.createElement('tr');
             Object.assign(row.style, {
                 backgroundColor: isPlayer ? COLORS.playerRow : (i % 2 === 0 ? COLORS.rowEven : COLORS.rowOdd),
-                animation: `wolf3d-lb-fadeInRow 0.3s ease ${i * 0.05}s both`,
+                animation: `burgfall-lb-fadeInRow 0.3s ease ${i * 0.05}s both`,
                 transition: 'background-color 0.2s ease',
             });
 
@@ -894,7 +894,7 @@ export class Leaderboard {
                 fontWeight: rank <= 3 ? 'bold' : 'normal',
             });
             if (rank === 1) {
-                rankCell.style.animation = 'wolf3d-lb-pulse 2s ease-in-out infinite';
+                rankCell.style.animation = 'burgfall-lb-pulse 2s ease-in-out infinite';
             }
             row.appendChild(rankCell);
 

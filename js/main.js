@@ -94,7 +94,7 @@ let levelExit = null;
 /** @type {Boss} */
 let boss = null;
 
-/** @type {HTMLDivElement|null} Gas overlay for Otto Giftmacher */
+/** @type {HTMLDivElement|null} Gas overlay for Dr. Nebel */
 let gasOverlay = null;
 
 /** @type {THREE.Mesh[]} Active 3D gas cloud meshes */
@@ -276,14 +276,14 @@ async function boot() {
     // Load 3D boss models (non-blocking — falls back to placeholder boxes if not yet generated)
     Boss.setModelLoader(modelLoader);
     const bossModelMap = {
-        hitler_mech: 'hitler_mech',
-        hitler: 'hitler',
-        hans: 'hans',
-        schabbs: 'schabbs',
-        otto: 'otto',
-        gretel: 'gretel',
-        fettgesicht: 'fettgesicht',
-        ubersoldier: 'ubersoldier',
+        krieger_mech: 'krieger_mech',
+        krieger: 'krieger',
+        brandt: 'brandt',
+        vogel: 'vogel',
+        nebel: 'nebel',
+        ilse: 'ilse',
+        haldern: 'haldern',
+        golem: 'golem',
     };
     Object.entries(bossModelMap).forEach(([type, filename]) => {
         Boss.preloadModel(type, `assets/models/animated/${filename}.glb`).catch(() => {});
@@ -323,14 +323,14 @@ async function boot() {
         'guard_halt', 'guard_achtung', 'guard_mein_leben', 'guard_alert', 'guard_attack',
         'ss_schutzstaffel', 'ss_alarm', 'ss_death',
         'officer_spion', 'officer_alarm', 'officer_death',
-        'hans_guten_tag',
+        'brandt_intro',
         'mutant_alert', 'mutant_attack', 'mutant_death',
-        'schabbs_welcome',
-        'hitler_rage',
-        'otto_willkommen',
-        'gretel_willkommen',
-        'fettgesicht_willkommen',
-        'ubersoldier_willkommen',
+        'vogel_intro',
+        'krieger_rage',
+        'nebel_intro',
+        'ilse_intro',
+        'haldern_intro',
+        'golem_intro',
     ];
     await Promise.all(voiceFiles.map(v => audioManager.loadSFX(v, `assets/audio/voices/${v}.mp3`)));
 
@@ -392,7 +392,7 @@ async function boot() {
         mobileControls = new MobileControls(input, weaponSystem);
     }
 
-    // Cheat code system (classic Wolfenstein easter egg)
+    // Cheat code system (classic retro-FPS easter egg)
     cheatSystem = new CheatSystem(gameState, input);
 
     // Wire main menu OPTIONS button to settings
@@ -639,18 +639,18 @@ function updateHUD() {
                 hudFace.innerHTML = godFaceHTML;
             }
         } else {
-            let faceImg = 'bj_100.png';
-            if (gameState.health > 75) faceImg = 'bj_100.png';
-            else if (gameState.health > 50) faceImg = 'bj_75.png';
-            else if (gameState.health > 25) faceImg = 'bj_50.png';
-            else if (gameState.health > 0) faceImg = 'bj_25.png';
-            else faceImg = 'bj_dead.png';
+            let faceImg = 'agent_100.png';
+            if (gameState.health > 75) faceImg = 'agent_100.png';
+            else if (gameState.health > 50) faceImg = 'agent_75.png';
+            else if (gameState.health > 25) faceImg = 'agent_50.png';
+            else if (gameState.health > 0) faceImg = 'agent_25.png';
+            else faceImg = 'agent_dead.png';
 
             // Only update if changed
             const src = `assets/ui/faces/${faceImg}`;
             const existingImg = hudFace.querySelector('img');
             if (!existingImg || !existingImg.src.endsWith(faceImg)) {
-                hudFace.innerHTML = `<img src="${src}" alt="BJ" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">`;
+                hudFace.innerHTML = `<img src="${src}" alt="Agent" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">`;
             }
         }
     }
@@ -939,7 +939,7 @@ function wireEvents() {
                 boss = null;
             }
 
-            // Clean up gas cloud meshes from Otto Giftmacher
+            // Clean up gas cloud meshes from Dr. Nebel
             for (const mesh of gasCloudMeshes) {
                 renderer.scene.remove(mesh);
                 mesh.geometry?.dispose();
@@ -1007,7 +1007,7 @@ function wireEvents() {
             // Boss level: create and spawn boss (type comes from level data)
             if (isBossLevel && levelLoader.levelData.boss) {
                 const bossData = levelLoader.levelData.boss;
-                const bossType = bossData.type || 'hans';
+                const bossType = bossData.type || 'brandt';
                 boss = new Boss(bossType, renderer.scene, collision, gameState, player);
                 boss.spawn(bossData.x, bossData.z, bossData.triggerZone);
 
@@ -1105,7 +1105,7 @@ function wireEvents() {
         weaponSystem.setEnemyMeshes(enemyMeshes);
     });
 
-    // Boss summon — Schabbs summons a mutant near the player
+    // Boss summon — Vogel summons a mutant near the player
     eventBus.on('boss:summon', (data) => {
         if (enemyManager) {
             const summonedEnemy = enemyManager.spawnEnemy({
@@ -1124,7 +1124,7 @@ function wireEvents() {
         }
     });
 
-    // Boss gas cloud — Otto Giftmacher deploys toxic gas (3D visual + screen overlay)
+    // Boss gas cloud — Dr. Nebel deploys toxic gas (3D visual + screen overlay)
 
     eventBus.on('boss:gas_cloud', (data) => {
         // 3D gas cloud: translucent green cylinder in the scene
@@ -1193,7 +1193,7 @@ function wireEvents() {
         }
     });
 
-    // Boss rocket fire — Fettgesicht's rockets (screen shake + audio)
+    // Boss rocket fire — von Haldern's rockets (screen shake + audio)
     eventBus.on('boss:rocket_fire', () => {
         player.shake(0.8);
         audioManager.playSFX('weapon_chaingun', 0.8);
@@ -1211,7 +1211,7 @@ function wireEvents() {
         }
     });
 
-    // Boss phase transition — mech destroyed, spawn human Hitler (phase 2)
+    // Boss phase transition — mech destroyed, spawn human Krieger (phase 2)
     eventBus.on('boss:phase_transition', (data) => {
         // Clean up phase 1 boss (mesh, health bar, event listeners)
         if (boss) {
@@ -1368,7 +1368,7 @@ async function startGame(episode = 1) {
     // Boss level setup
     if (isBossLevel && levelLoader.levelData?.boss) {
         const bossData = levelLoader.levelData.boss;
-        boss = new Boss(bossData.type || 'hans', renderer.scene, collision, gameState, player);
+        boss = new Boss(bossData.type || 'brandt', renderer.scene, collision, gameState, player);
         boss.spawn(bossData.x, bossData.z, bossData.triggerZone);
         weaponSystem.setEnemyMeshes([...enemyManager.getEnemyMeshes(), ...boss.getMeshes()]);
     } else {
@@ -1474,7 +1474,7 @@ async function continueGame() {
         const isBossLevel = levelLoader.levelData?.isBossLevel;
         if (isBossLevel && levelLoader.levelData?.boss) {
             const bossData = levelLoader.levelData.boss;
-            boss = new Boss(bossData.type || 'hans', renderer.scene, collision, gameState, player);
+            boss = new Boss(bossData.type || 'brandt', renderer.scene, collision, gameState, player);
             boss.spawn(bossData.x, bossData.z, bossData.triggerZone);
             weaponSystem.setEnemyMeshes([...enemyManager.getEnemyMeshes(), ...boss.getMeshes()]);
             // Boss levels start with exit locked
@@ -1577,13 +1577,13 @@ function showEpisodeComplete(episode) {
 
     const EPISODE_NAMES = [
         '',
-        'Escape from Castle Wolfenstein',
-        'Operation Eisenfaust',
-        'Die, Fuhrer, Die!',
-        'A Dark Secret',
-        'Trail of the Madman',
-        'Confrontation',
-        'The Nightmare',
+        'Ausbruch',
+        'Das Labor',
+        'Der Bunker',
+        'Giftküche',
+        'Die Jägerin',
+        'Festung Haldern',
+        'Golem',
     ];
 
     const card = document.createElement('div');

@@ -1,20 +1,20 @@
-# Wolfenstein 3D — 2026 Browser Remake
+# Burgfall — Browser FPS
 
-> Castle Wolfenstein reimagined with AI. 7 episodes, 33 levels, 7 boss fights — playable in your browser.
+> Break out of Burg Kaltenfels. 7 episodes, 33 levels, 7 boss fights — playable in your browser.
 
-**[Play Now](https://theuws.com/games/wolfenstein-3d/)** | **[Credits](#credits)**
+**[Play Now](https://theuws.com/games/burgfall/)** | **[Credits](#credits)**
 
-![Wolfenstein 3D 2026](og-image.jpg)
+![Burgfall](og-image.jpg)
 
 ## About
 
-A faithful browser-based remake of the classic 1992 FPS **Wolfenstein 3D** by id Software, rebuilt from scratch using modern web technologies and AI-generated assets. Built in approximately **8 hours** across 3 sessions.
+**Burgfall** is a retro-style WWII first-person shooter for the browser, built from scratch with modern web technologies and AI-generated assets. Built in approximately **8 hours** across 3 sessions.
 
 This project demonstrates what's possible when a human creative director and an AI game master collaborate at full speed.
 
 ## Play
 
-- **URL**: [theuws.com/games/wolfenstein-3d/](https://theuws.com/games/wolfenstein-3d/)
+- **URL**: [theuws.com/games/burgfall/](https://theuws.com/games/burgfall/)
 - **Platform**: Any modern browser (Chrome, Firefox, Safari, Edge)
 - **Controls**: WASD + Mouse (desktop) / Touch joystick (mobile)
 - **Cost**: Free
@@ -24,13 +24,13 @@ This project demonstrates what's possible when a human creative director and an 
 ### Episodes
 | # | Episode | Levels | Boss |
 |---|---------|--------|------|
-| 1 | Escape from Castle Wolfenstein | 5 | Hans Grösse (850 HP) |
-| 2 | Operation Eisenfaust | 5 | Dr. Schabbs (950 HP, summons mutants) |
-| 3 | Die, Führer, Die! | 5 | Hitler (2-phase: mech suit 800 HP → human 500 HP) |
-| 4 | A Dark Secret | 5 | Otto Giftmacher (850 HP, toxic gas clouds) |
-| 5 | Trail of the Madman | 5 | Gretel Grösse (900 HP, tactical hunter) |
-| 6 | Confrontation | 5 | General Fettgesicht (1200 HP, rockets) |
-| 7 | The Nightmare (Bonus) | 3 | Der Übersoldat (1500 HP, all attacks combined) |
+| 1 | Ausbruch | 5 | Kommandant Brandt (850 HP) |
+| 2 | Das Labor | 5 | Dr. Vogel (950 HP, summons mutants) |
+| 3 | Der Bunker | 5 | Generaloberst Krieger (2-phase: mech suit 800 HP → on foot 500 HP) |
+| 4 | Giftküche | 5 | Dr. Nebel (850 HP, toxic gas clouds) |
+| 5 | Die Jägerin | 5 | Ilse Brandt (900 HP, tactical hunter) |
+| 6 | Festung Haldern | 5 | General von Haldern (1200 HP, rockets) |
+| 7 | Golem (Bonus) | 3 | Projekt Golem (1500 HP, all attacks combined) |
 
 ### Gameplay
 - 5 enemy types: Guard, SS Soldier, Officer, Dog, Mutant
@@ -76,7 +76,7 @@ localStorage            Settings + save system
 ## Project Structure
 
 ```
-wolfenstein-3d/
+burgfall/
 ├── index.html              # Entry point
 ├── js/
 │   ├── engine/             # Renderer, collision, input, level-loader, model-loader
@@ -91,9 +91,7 @@ wolfenstein-3d/
 │   ├── sprites/            # Pickup + weapon sprites
 │   ├── levels/             # JSON level data (32x32 grids)
 │   └── ui/                 # Faces, screens, credits images
-├── css/wolf3d.css          # Full game styling
-├── MASTERPLAN.md           # Original 537KB planning document
-└── AUDIT-REPORT.md         # Technical audit
+└── css/game.css            # Full game styling
 ```
 
 ## Development
@@ -103,10 +101,10 @@ No build step required. Just serve the files:
 ```bash
 # Local development
 python3 -m http.server 8080
-open http://localhost:8080/wolf3d.html
+open http://localhost:8080/index.html
 
 # Deploy to production
-bash deploy-ftp.sh wolfenstein-3d
+bash ../deploy-ftp.sh 3d-shooter --remote-name=burgfall
 ```
 
 ### Adding a Level
@@ -137,7 +135,7 @@ Wall types: 0=empty, 1=grey stone, 2=eagle banner, 3=blue brick, 4=prison bars, 
 
 **AI Game Master**: [Claude Opus 4.6](https://claude.ai) by Anthropic — Project manager, technical architect, creative director. 7 specialized sub-agents for analysis, asset generation, audio, 3D animation, narrative, deployment, and process improvement.
 
-**Special Thanks**: id Software (original Wolfenstein 3D, 1992), Bobby Prince (original soundtrack), the Metal Business Club community.
+**Special Thanks**: the pioneers of the 90s first-person shooter, and the Metal Business Club community.
 
 ## Contributing
 
@@ -152,10 +150,8 @@ Fork, modify, submit a PR. All contributions welcome.
 
 ## License
 
-This is a fan remake for educational and entertainment purposes. Wolfenstein 3D is a trademark of id Software/ZeniMax Media. This project is not affiliated with or endorsed by id Software.
-
-The source code of this remake is available under the [MIT License](LICENSE).
+The source code is available under the [MIT License](LICENSE).
 
 ---
 
-*"Mein Leben!" — Built in Bladel 🇳🇱*
+*Built in Bladel 🇳🇱*

@@ -6,9 +6,9 @@
  * Designed to work alongside the regular Enemy/EnemyManager systems.
  *
  * Supports multiple boss types via BOSS_TYPES data object:
- *   - Episode 1: Hans Grosse (dual chainguns, strafe + charge)
- *   - Episode 2: Dr. Schabbs (syringe throws, circle + summon)
- *   - Episode 3: Hitler (two-phase: mech suit → human form)
+ *   - Episode 1: Kommandant Brandt (dual chainguns, strafe + charge)
+ *   - Episode 2: Dr. Vogel (syringe throws, circle + summon)
+ *   - Episode 3: Krieger (two-phase: mech suit → human form)
  */
 
 import * as THREE from 'three';
@@ -19,8 +19,8 @@ import { EnemyAnimationMixer } from './enemy-animation-mixer.js';
 // ── Boss Type Definitions ─────────────────────────────────────────
 
 export const BOSS_TYPES = {
-    hans: {
-        name: 'HANS GROSSE',
+    brandt: {
+        name: 'KOMMANDANT BRANDT',
         hp: 850,
         score: 5000,
         speed: 2.0,
@@ -31,12 +31,12 @@ export const BOSS_TYPES = {
         color: 0x4a6a4a,
         dropType: 'pistol_ammo',
         dropAmount: 20,
-        voice: 'hans_guten_tag',
+        voice: 'brandt_intro',
         enrageThreshold: 0.3,
         attacks: ['strafe_fire', 'charge', 'pause'],
     },
-    schabbs: {
-        name: 'DR. SCHABBS',
+    vogel: {
+        name: 'DR. VOGEL',
         hp: 950,
         score: 10000,
         speed: 1.5,
@@ -47,12 +47,12 @@ export const BOSS_TYPES = {
         color: 0xcccccc,       // White lab coat
         dropType: 'pistol_ammo',
         dropAmount: 25,
-        voice: 'schabbs_welcome',
+        voice: 'vogel_intro',
         enrageThreshold: 0.4,  // Enrages earlier
         attacks: ['circle_fire', 'summon', 'pause'],
     },
-    hitler_mech: {
-        name: 'HITLER \u2014 MECH SUIT',
+    krieger_mech: {
+        name: 'KRIEGER \u2014 MECH SUIT',
         hp: 800,
         score: 0,              // Score awarded on phase 2 death only
         speed: 1.0,
@@ -67,10 +67,10 @@ export const BOSS_TYPES = {
         enrageThreshold: 0.0,  // No enrage on mech (phase transition instead)
         attacks: ['strafe_fire', 'strafe_fire', 'pause'],  // Simple but deadly
         isPhaseOne: true,
-        nextPhase: 'hitler',
+        nextPhase: 'krieger',
     },
-    hitler: {
-        name: 'HITLER',
+    krieger: {
+        name: 'GENERALOBERST KRIEGER',
         hp: 500,
         score: 50000,          // THE biggest score in the game
         speed: 3.0,            // Fast and desperate
@@ -81,14 +81,14 @@ export const BOSS_TYPES = {
         color: 0x4a3a2a,       // Brown uniform
         dropType: 'pistol_ammo',
         dropAmount: 50,
-        voice: 'hitler_rage',
+        voice: 'krieger_rage',
         enrageThreshold: 0.3,
         attacks: ['strafe_fire', 'charge', 'strafe_fire', 'pause'],
     },
 
     // ── Episode 4 Boss ───────────────────────────────────────────
-    otto: {
-        name: 'OTTO GIFTMACHER',
+    nebel: {
+        name: 'DR. NEBEL',
         hp: 850,
         score: 8000,
         speed: 1.8,
@@ -100,32 +100,32 @@ export const BOSS_TYPES = {
         color: 0x4a6a2a,           // Olive green — chemical warfare
         dropType: 'pistol_ammo',
         dropAmount: 25,
-        voice: 'otto_willkommen',
+        voice: 'nebel_intro',
         enrageThreshold: 0.35,
         attacks: ['strafe_fire', 'gas_cloud', 'charge', 'gas_cloud', 'pause'],
     },
 
     // ── Episode 5 Boss ───────────────────────────────────────────
-    gretel: {
-        name: 'GRETEL GRÖSSE',
+    ilse: {
+        name: 'ILSE BRANDT',
         hp: 900,
         score: 7000,
-        speed: 2.5,                // Faster than Hans — she's a hunter
+        speed: 2.5,                // Faster than Brandt — she's a hunter
         chargeSpeed: 5.0,          // Devastatingly fast charge
         damage: [8, 25],
-        fireRate: 0.12,            // Rapid fire — dual chainguns like Hans
+        fireRate: 0.12,            // Rapid fire — dual chainguns like Brandt
         size: { height: 2.3, width: 0.9 },
         color: 0x3a3a5a,           // Dark blue-grey tactical uniform
         dropType: 'pistol_ammo',
         dropAmount: 20,
-        voice: 'gretel_willkommen',
+        voice: 'ilse_intro',
         enrageThreshold: 0.25,     // Enrages later — she stays controlled
         attacks: ['strafe_fire', 'charge', 'strafe_fire', 'charge', 'pause'],
     },
 
     // ── Episode 6 Boss — THE FINAL BOSS ──────────────────────────
-    fettgesicht: {
-        name: 'GENERAL FETTGESICHT',
+    haldern: {
+        name: 'GENERAL VON HALDERN',
         hp: 1200,                  // Toughest boss in the game
         score: 15000,
         speed: 1.5,                // Slow but devastating
@@ -137,26 +137,26 @@ export const BOSS_TYPES = {
         color: 0x5a3a2a,           // Military brown
         dropType: 'chaingun_ammo',
         dropAmount: 50,
-        voice: 'fettgesicht_willkommen',
+        voice: 'haldern_intro',
         enrageThreshold: 0.3,
         attacks: ['rocket', 'strafe_fire', 'rocket', 'charge', 'pause'],
     },
     // ── BONUS Episode Boss — THE ULTIMATE CHALLENGE ─────────────
-    ubersoldier: {
-        name: 'DER ÜBERSOLDIER',
+    golem: {
+        name: 'PROJEKT GOLEM',
         hp: 1500,                  // The hardest boss in the game
         score: 25000,
         speed: 2.2,
         chargeSpeed: 4.5,
         damage: [10, 30],
-        gasDamage: [3, 7],         // Gas clouds (from Otto)
-        rocketDamage: [12, 35],    // Rockets (from Fettgesicht)
+        gasDamage: [3, 7],         // Gas clouds (from Nebel)
+        rocketDamage: [12, 35],    // Rockets (from von Haldern)
         fireRate: 0.2,
         size: { height: 2.8, width: 1.3 },
         color: 0x2a1a1a,           // Dark crimson — the perfect soldier
         dropType: 'chaingun_ammo',
         dropAmount: 50,
-        voice: 'ubersoldier_willkommen',
+        voice: 'golem_intro',
         enrageThreshold: 0.4,      // Enrages at 40% — then the real fight begins
         attacks: ['strafe_fire', 'gas_cloud', 'rocket', 'charge', 'gas_cloud', 'summon', 'pause'],
     },
@@ -206,7 +206,7 @@ const MAX_SUMMONS = 3;
 /** Death animation total duration (seconds) */
 const DEATH_TOTAL_DURATION = 2.5;
 
-/** Gas cloud throw phase duration (seconds) — Otto Giftmacher */
+/** Gas cloud throw phase duration (seconds) — Dr. Nebel */
 const GAS_CLOUD_THROW_DURATION = 1.5;
 
 /** Gas cloud zone lifetime after deployment (seconds) */
@@ -218,13 +218,13 @@ const GAS_ZONE_RADIUS = 3.0;
 /** Gas cloud damage tick interval (seconds) */
 const GAS_TICK_INTERVAL = 0.5;
 
-/** Rocket attack phase duration (seconds) — General Fettgesicht */
+/** Rocket attack phase duration (seconds) — General von Haldern */
 const ROCKET_DURATION = 3.5;
 
 /** Rocket fire interval (seconds) — slow but devastating */
 const ROCKET_FIRE_INTERVAL = 1.2;
 
-/** Phase transition pause duration (seconds) — mech explodes before Hitler emerges */
+/** Phase transition pause duration (seconds) — mech explodes before Krieger emerges */
 const PHASE_TRANSITION_DURATION = 1.5;
 
 /** Collision radius for the boss */
@@ -251,7 +251,7 @@ export class Boss {
 
     /**
      * Preload a 3D model for a specific boss type.
-     * @param {string} type - Boss type key (e.g. 'hitler_mech', 'hitler')
+     * @param {string} type - Boss type key (e.g. 'krieger_mech', 'krieger')
      * @param {string} url - URL to the .glb model file
      * @returns {Promise<void>}
      */
@@ -269,7 +269,7 @@ export class Boss {
     }
 
     /**
-     * @param {string} bossType - Boss type key ('hans' or 'schabbs')
+     * @param {string} bossType - Boss type key ('brandt' or 'vogel')
      * @param {THREE.Scene} scene
      * @param {import('../engine/collision.js').CollisionSystem} collisionSystem
      * @param {import('./game-state.js').GameState} gameState
@@ -292,7 +292,7 @@ export class Boss {
         this._player = playerController;
 
         /** Boss type data — looked up from BOSS_TYPES */
-        this._typeData = BOSS_TYPES[bossType] || BOSS_TYPES.hans;
+        this._typeData = BOSS_TYPES[bossType] || BOSS_TYPES.brandt;
 
         /** Current HP */
         this.hp = this._typeData.hp;
@@ -356,16 +356,16 @@ export class Boss {
         /** @type {EnemyAnimationMixer|null} Skeletal animation mixer for 3D models */
         this._mixerAnimator = null;
 
-        /** Circle-fire angle (radians) — Schabbs orbits around the player */
+        /** Circle-fire angle (radians) — Vogel orbits around the player */
         this._circleAngle = 0;
 
-        /** Number of active summoned mutants (Schabbs only) */
+        /** Number of active summoned mutants (Vogel only) */
         this._activeSummons = 0;
 
-        /** Attack cycle counter — used for Schabbs summon timing */
+        /** Attack cycle counter — used for Vogel summon timing */
         this._attackCycleCount = 0;
 
-        /** Active gas zones (Otto Giftmacher) — {x, z, lifetime, tickTimer} */
+        /** Active gas zones (Dr. Nebel) — {x, z, lifetime, tickTimer} */
         this._gasZones = [];
 
         /** Gas damage cooldown to prevent double-ticking within same interval */
@@ -585,7 +585,7 @@ export class Boss {
             );
         }
 
-        // Update active gas zones (Otto Giftmacher area denial)
+        // Update active gas zones (Dr. Nebel area denial)
         this._updateGasZones(dt);
 
         // Update health bar
@@ -843,7 +843,7 @@ export class Boss {
     }
 
     /**
-     * CIRCLE_FIRE state (Schabbs): orbit around the player at medium distance,
+     * CIRCLE_FIRE state (Vogel): orbit around the player at medium distance,
      * throwing syringes. Duration: 4 seconds.
      * @param {number} dt
      */
@@ -894,7 +894,7 @@ export class Boss {
     }
 
     /**
-     * SUMMON state (Schabbs): summon a mutant near the player.
+     * SUMMON state (Vogel): summon a mutant near the player.
      * Emits a 'boss:summon' event that main.js handles by creating an Enemy.
      * @param {number} dt
      */
@@ -982,7 +982,7 @@ export class Boss {
     }
 
     /**
-     * GAS_CLOUD state (Otto Giftmacher): throw a toxic gas cloud at the player's position.
+     * GAS_CLOUD state (Dr. Nebel): throw a toxic gas cloud at the player's position.
      * Creates a persistent damage zone that hurts the player if they stand in it.
      * @param {number} dt
      */
@@ -1087,7 +1087,7 @@ export class Boss {
     }
 
     /**
-     * ROCKET state (General Fettgesicht): slow strafe with devastating rocket fire.
+     * ROCKET state (General von Haldern): slow strafe with devastating rocket fire.
      * Rockets cause screen shake on impact — maximum intimidation.
      * @param {number} dt
      */
@@ -1219,8 +1219,8 @@ export class Boss {
         const attacks = this._typeData.attacks || ['strafe_fire', 'charge', 'pause'];
         this._attackCycleCount++;
 
-        // Schabbs/Ubersoldier summon override: every 3rd cycle (or every cycle when enraged)
-        if (this._bossType === 'schabbs' || this._bossType === 'ubersoldier') {
+        // Vogel/Golem summon override: every 3rd cycle (or every cycle when enraged)
+        if (this._bossType === 'vogel' || this._bossType === 'golem') {
             const summonEvery = this._enraged ? 1 : 3;
             if (this._attackCycleCount % summonEvery === 0 && this._activeSummons < MAX_SUMMONS) {
                 this.state = BOSS_STATE.SUMMON;
@@ -1297,19 +1297,19 @@ export class Boss {
 
     /**
      * Get the current movement speed (accounting for enrage).
-     * Schabbs doubles speed on enrage; Hans gets 1.5x.
+     * Vogel doubles speed on enrage; Brandt gets 1.5x.
      * @returns {number}
      */
     _getSpeed() {
         if (!this._enraged) return this._typeData.speed;
         // Boss-specific enrage speed multipliers
         let multiplier = 1.5;
-        if (this._bossType === 'schabbs') multiplier = 2.0;
-        else if (this._bossType === 'hitler') multiplier = 1.8;
-        else if (this._bossType === 'gretel') multiplier = 1.8;  // Gretel goes full predator
-        else if (this._bossType === 'fettgesicht') multiplier = 1.6;  // Even the general gets faster
-        else if (this._bossType === 'otto') multiplier = 1.4;  // Otto relies on gas, not speed
-        else if (this._bossType === 'ubersoldier') multiplier = 1.8;  // THE nightmare
+        if (this._bossType === 'vogel') multiplier = 2.0;
+        else if (this._bossType === 'krieger') multiplier = 1.8;
+        else if (this._bossType === 'ilse') multiplier = 1.8;  // Ilse goes full predator
+        else if (this._bossType === 'haldern') multiplier = 1.6;  // Even the general gets faster
+        else if (this._bossType === 'nebel') multiplier = 1.4;  // Nebel relies on gas, not speed
+        else if (this._bossType === 'golem') multiplier = 1.8;  // THE nightmare
         return this._typeData.speed * multiplier;
     }
 
@@ -1399,7 +1399,7 @@ export class Boss {
     }
 
     /**
-     * Start the phase transition sequence (mech → human Hitler).
+     * Start the phase transition sequence (mech → human Krieger).
      * The mech stops fighting, the health bar shows "MECH DESTROYED",
      * and after a brief pause, a phase transition event is emitted.
      */

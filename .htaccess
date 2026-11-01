@@ -8,3 +8,9 @@
         Header unset Expires
     </FilesMatch>
 </IfModule>
+
+# Project docs (README, CHANGELOG, ...) belong in the repo, not on the web.
+<FilesMatch "\.md$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>

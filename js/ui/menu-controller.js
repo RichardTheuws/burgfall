@@ -4,7 +4,7 @@
  * Manages the full menu chain:
  *   Main Menu -> Episode Select -> Difficulty Select -> Start Game
  *
- * Operates on DOM elements already present in wolf3d.html.
+ * Operates on DOM elements already present in index.html.
  */
 
 export class MenuController {

@@ -235,7 +235,7 @@ export class Settings {
                     <div class="setting-row">
                         <label class="setting-label" for="setting-playername">Name (High Scores)</label>
                         <input type="text" class="setting-select" id="setting-playername"
-                               maxlength="20" placeholder="BJ" style="text-transform: uppercase; letter-spacing: 1px; width: 140px; text-align: center;">
+                               maxlength="20" placeholder="AGENT" style="text-transform: uppercase; letter-spacing: 1px; width: 140px; text-align: center;">
                     </div>
                 </div>
 

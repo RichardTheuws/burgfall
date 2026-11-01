@@ -1,12 +1,12 @@
 {
-  "name": "Castle Wolfenstein - Boss Floor",
+  "name": "Burg Kaltenfels - Boss Floor",
   "episode": 1,
   "floor": 10,
   "width": 32,
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "hans_grosse",
+  "bossType": "brandt",
   "playerStart": { "x": 10, "z": 2, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -58,7 +58,7 @@
     { "type": "health_small", "x": 11.5, "z": 9.5 }
   ],
   "boss": {
-    "type": "hans_grosse",
+    "type": "brandt",
     "x": 10.5,
     "z": 18.5,
     "triggerZone": {

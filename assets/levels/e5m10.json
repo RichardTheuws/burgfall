@@ -1,12 +1,12 @@
 {
-  "name": "Gretel's Arena",
+  "name": "Ilse's Arena",
   "episode": 5,
   "floor": 10,
   "width": 32,
   "height": 32,
   "wallHeight": 2.0,
   "isBossLevel": true,
-  "bossType": "gretel",
+  "bossType": "ilse",
   "playerStart": { "x": 16, "z": 2, "angle": 0 },
   "walls": [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -62,7 +62,7 @@
     { "type": "health_large", "x": 16.5, "z": 10.5 }
   ],
   "boss": {
-    "type": "gretel",
+    "type": "ilse",
     "x": 15.5,
     "z": 20.5,
     "triggerZone": {
